@@ -17,8 +17,8 @@
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark">
                 <div class="nav-inner d-flex justify-content-between align-items-center">
-                    <a class="navbar-brand fw-bold text-white text-decoration-none" href="#">Scout</a>
-                    
+                    <a class="navbar-brand fw-bold text-white text-decoration-none" href="{% url 'home' %}">Scout</a>
+                    {% if not hide_nav_links %}
                     <div class="d-flex align-items-center">
                         <a href="#" class="nav-link text-white me-3">Login</a>
                         <div class="dropdown">
@@ -26,11 +26,12 @@
                                 Cadastre-se
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#">Candidato</a></li>
+                                <li><a class="dropdown-item" href="{% url 'register_candidate' %}">Candidato</a></li>
                                 <li><a class="dropdown-item" href="#">Empresa</a></li>
                             </ul>
                         </div>
                     </div>
+                    {% endif %}
                 </div>
             </nav>
         </header>
@@ -41,6 +42,7 @@
         </main>
 
         <!-- FOOTER -->
+        {% block footer %}
         <footer class="footer mt-auto py-3">
             <div class="footer-inner d-flex justify-content-between align-items-center">
                 <span>© 2025 Scout. Todos os direitos reservados.</span>
@@ -51,6 +53,7 @@
                 </div>
             </div>
         </footer>
+        {% endblock %}
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

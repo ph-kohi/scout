@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="register-container">
+    <div class="register-inner">
+        <h4>Qual é o seu endereço de e-mail?</h4>
+        
+        <form class="register-form">
+            <input type="email" class="form-control email-input" placeholder="Digite seu e-mail" required>
+            <button type="submit" class="btn btn-black">Continuar</button>
+        </form>
+
+        <div class="divider">ou</div>
+
+        <div class="social-login">
+            <button class="btn btn-social">
+                <img src="{% static 'images/google_icon.png' %}" alt="Google" class="icon">
+                Fazer login com o Google
+            </button>
+            <button class="btn btn-social">
+                <img src="{% static 'images/apple_icon.png' %}" alt="Apple" class="icon">
+                Fazer login com a Apple
+            </button>
+        </div>
+
+        <p class="terms">
+            Ao continuar, você concorda em receber comunicações por WhatsApp ou mensagens de texto da Scout.
+        </p>
+    </div>
+</div>
+{% endblock %}
+{% block footer %}{% endblock %}
