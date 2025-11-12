@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="verify-container text-center">
+    <h4>
+        Digite o código de 4 dígitos enviado para <br>
+        <span class="email-text">{{ email }}</span>
+    </h4>
+
+    <form class="code-form mt-4" id="verifyForm" onsubmit="return handleCodeSubmit(event)">
+        <div class="code-inputs">
+            <input type="text" maxlength="1" class="code-box" required>
+            <input type="text" maxlength="1" class="code-box" required>
+            <input type="text" maxlength="1" class="code-box" required>
+            <input type="text" maxlength="1" class="code-box" required>
+        </div>
+
+        <button type="button" class="btn btn-gray mt-4 w-100">Reenviar e-mail</button>
+
+        <div class="d-flex justify-content-between mt-4 w-100" style="max-width: 320px;">
+            <a href="{% url 'register_candidate' %}" class="btn btn-gray nav-btn">← Voltar</a>
+            <button type="submit" class="btn btn-gray nav-btn">Avançar →</button>
+        </div>
+    </form>
+</div>
+
+<script>
+/* ===========================
+   Lógica do formulário
+=========================== */
+function handleCodeSubmit(event) {
+    event.preventDefault();
+
+    const inputs = document.querySelectorAll('.code-box');
+    const code = Array.from(inputs).map(i => i.value.trim()).join('');
+
+    if (code === '1111') {
+        alert('Código verificado com sucesso! (mock)');
+        // futura navegação para o cadastro real aqui
+    } else {
+        alert('Código incorreto. Tente novamente.');
+
+        // limpa apenas os campos do código, mantendo o e-mail
+        inputs.forEach(i => i.value = '');
+        inputs[0].focus();
+    }
+}
+
+/* ===========================
+   Navegação automática entre campos
+=========================== */
+document.querySelectorAll('.code-box').forEach((box, i, arr) => {
+    box.addEventListener('input', () => {
+        if (box.value && i < arr.length - 1) arr[i + 1].focus();
+    });
+});
+</script>
+{% endblock %}
+
+{% block footer %}{% endblock %}

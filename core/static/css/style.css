@@ -33,18 +33,17 @@ main {
     border-bottom: 1px solid #222;
 }
 
-/* padding lateral responsivo e centralizado */
 .nav-inner {
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 4vw; /* espaçamento proporcional */
+    padding: 0 4vw;
 }
 
 /* Links da navbar */
 .nav-link,
 .navbar-brand {
-    color: #fff !important;
+    color: inherit !important;
     transition: color 0.3s ease;
 }
 
@@ -62,15 +61,11 @@ main {
     padding: 0.5rem 1rem;
     border-radius: 6px;
     font-weight: 500;
-    transition: background-color 0.3s ease, transform 0.1s ease;
+    transition: background-color 0.3s ease;
 }
 
-.navbar .btn-register:hover,
-.navbar .btn-register:focus,
-.navbar .btn-register:active {
+.navbar .btn-register:hover {
     background-color: #3a3a3a !important;
-    color: #fff !important;
-    box-shadow: none !important;
 }
 
 /* ===========================
@@ -83,7 +78,6 @@ footer {
     font-size: 0.9rem;
 }
 
-/* Mantém o mesmo recuo e largura do header */
 .footer-inner {
     width: 100%;
     max-width: 1400px;
@@ -91,9 +85,8 @@ footer {
     padding: 0 4vw;
 }
 
-/* Links do footer */
 .footer-links a {
-    color: #fff;
+    color: inherit;
     text-decoration: none;
     margin-left: 1.5rem;
     transition: color 0.3s ease;
@@ -107,16 +100,17 @@ footer {
    TÍTULOS
 =========================== */
 h1, h2, h3, h4, h5 {
-    color: #f5f5f5;
+    color: inherit;
 }
 
-/* ======== Tela de Cadastro ======== */
-
+/* ===========================
+   TELA DE CADASTRO
+=========================== */
 .register-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 80vh; 
+    min-height: 80vh;
     padding: 2rem;
 }
 
@@ -128,14 +122,13 @@ h1, h2, h3, h4, h5 {
 
 .register-inner h4 {
     font-weight: 500;
-    color: #fff;
     margin-bottom: 1.5rem;
 }
 
 /* Campo de e-mail */
 .email-input {
     background-color: #2a2a2a;
-    color: #fff;
+    color: inherit;
     border: none;
     padding: 0.9rem 1rem;
     border-radius: 8px;
@@ -146,7 +139,6 @@ h1, h2, h3, h4, h5 {
 
 .email-input:focus {
     background-color: #333;
-    color: #fff;
     outline: none;
     box-shadow: none;
 }
@@ -173,11 +165,8 @@ h1, h2, h3, h4, h5 {
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
     color: #888;
-    margin-top: 1px;
-    margin-bottom: 20px;
-    width: 100%;
+    margin: 1.5rem 0;
     font-size: 0.9rem;
 }
 
@@ -195,7 +184,7 @@ h1, h2, h3, h4, h5 {
     margin-left: 0.75em;
 }
 
-/* Botões de login social */
+/* Botões sociais */
 .btn-social {
     background-color: #c2c2c2 !important;
     color: #000 !important;
@@ -235,4 +224,114 @@ h1, h2, h3, h4, h5 {
     line-height: 1.5;
     max-width: 320px;
     margin: 1.5rem auto 0;
+}
+
+/* ===========================
+   TELA DE VERIFICAÇÃO DE EMAIL
+=========================== */
+.verify-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 2rem;
+    transform: translateY(-60px);
+}
+
+.email-text {
+    font-weight: 400;
+}
+
+.code-form {
+    max-width: 320px;
+    width: 100%;
+}
+
+.code-inputs {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.8rem;
+}
+
+.code-box {
+    background-color: #2a2a2a;
+    color: inherit;
+    border: none;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 0.75rem 0;
+    width: 60px;
+    transition: background-color 0.3s ease;
+}
+
+.code-box:focus {
+    background-color: #3a3a3a;
+    outline: none;
+}
+
+/* Botões genéricos cinza */
+.btn-gray {
+    background-color: #2a2a2a !important;
+    color: #fff !important;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-gray:hover {
+    background-color: #3a3a3a !important;
+}
+
+.nav-btn {
+    min-width: 110px;
+}
+
+/* ===========================
+   MODO CLARO AUTOMÁTICO
+=========================== */
+@media (prefers-color-scheme: light) {
+    body {
+        background-color: #f7f7f7;
+        color: #000;
+    }
+
+    .navbar,
+    footer {
+        background-color: #fff !important;
+        border-color: #ddd !important;
+    }
+
+    .navbar .navbar-brand,
+    .nav-link,
+    footer .footer-links a,
+    footer span {
+        color: #000 !important;
+    }
+
+    .btn-register {
+        background-color: #e0e0e0 !important;
+        color: #000 !important;
+    }
+
+    .email-input,
+    .code-box {
+        background-color: #e0e0e0 !important;
+        color: #000 !important;
+    }
+
+    .btn-gray {
+        background-color: #d1d1d1 !important;
+        color: #000 !important;
+    }
+
+    .btn-gray:hover {
+        background-color: #bfbfbf !important;
+    }
+
+    .terms {
+        color: #555;
+    }
 }

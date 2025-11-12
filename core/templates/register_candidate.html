@@ -6,10 +6,26 @@
     <div class="register-inner">
         <h4>Qual é o seu endereço de e-mail?</h4>
         
-        <form class="register-form">
-            <input type="email" class="form-control email-input" placeholder="Digite seu e-mail" required>
-            <button type="submit" class="btn btn-black">Continuar</button>
+        <form class="register-form" onsubmit="return validateEmail(event)">
+            <input id="emailInput" type="email" class="form-control email-input mb-3" placeholder="Digite seu e-mail" required>
+            <button type="submit" class="btn btn-black w-100 mb-4">Continuar</button>
         </form>
+
+        <script>
+        function validateEmail(event) {
+            event.preventDefault();
+            const email = document.getElementById('emailInput').value.trim();
+            const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+
+            if (!pattern.test(email)) {
+                alert("Por favor, insira um e-mail válido.");
+                return false;
+            }
+
+            // redireciona para a página de verificação com o e-mail
+            window.location.href = `/verify/?email=${encodeURIComponent(email)}`;
+        }
+        </script>
 
         <div class="divider">ou</div>
 

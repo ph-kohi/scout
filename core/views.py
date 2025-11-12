@@ -5,3 +5,7 @@ def home(request):
 
 def register_candidate(request):
     return render(request, 'register_candidate.html', {'hide_nav_links': True})
+
+def verify_email(request):
+    email = request.GET.get('email', '')
+    return render(request, 'verify_email.html', {'email': email,'hide_nav_links': True})
