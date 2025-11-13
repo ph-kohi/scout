@@ -256,6 +256,7 @@ h1, h2, h3, h4, h5 {
 
 .code-box {
     background-color: #2a2a2a;
+    color: #fff !important;
     color: inherit;
     border: none;
     border-radius: 8px;
@@ -345,6 +346,8 @@ input[placeholder="Telefone"] {
     background-size: 20px auto;
     padding-left: 35px; /* espaço para a bandeira e o +55 */
 }
+
+
 
 /* ===========================
    MODO CLARO AUTOMÁTICO

@@ -224,7 +224,7 @@ function handleRegister(event) {
     let telefoneValido = validarTelefone(telefoneInput);
 
     if (senhaValida && cpfValido && telefoneValido) {
-        window.location.href = "{% url 'home' %}";
+        window.location.href = "{% url 'home_candidate' %}";
     }
 }
 </script>
