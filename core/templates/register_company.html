@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="register-container">
+    <div class="register-inner">
+        <h4>Insira os dados para continuar</h4>
+
+        <form class="register-form" onsubmit="return handleCompanyRegister(event)">
+            <input type="email" id="company-email" class="form-control email-input" placeholder="E-mail corporativo" required>
+            <input type="text" id="company-cnpj" class="form-control email-input" placeholder="CNPJ" required>
+
+            <button type="submit" class="btn btn-black w-100 mt-3">Continuar</button>
+        </form>
+        <p class="terms">
+        Ao continuar, você concorda em receber comunicações por WhatsApp ou mensagens de texto da Scout.
+        </p>
+    </div>
+</div>
+
+<script>
+// ===========================
+//  VALIDAÇÃO DE CNPJ
+// ===========================
+function onlyNumbers(input, length = null) {
+    input.addEventListener('input', () => {
+        let value = input.value.replace(/\D/g, '');
+        if (length && value.length > length) value = value.slice(0, length);
+        input.value = value;
+    });
+}
+
+const cnpjInput = document.getElementById('company-cnpj');
+onlyNumbers(cnpjInput, 14);
+
+function showError(input, message) {
+    let alert = input.parentNode.querySelector('.input-error');
+    if (!alert) {
+        alert = document.createElement('small');
+        alert.className = 'input-error';
+        alert.style.color = '#f66';
+        alert.style.display = 'block';
+        alert.style.marginTop = '4px';
+        input.parentNode.appendChild(alert);
+    }
+    alert.textContent = message;
+}
+
+function clearError(input) {
+    const alert = input.parentNode.querySelector('.input-error');
+    if (alert) alert.remove();
+}
+
+function validarCNPJ(cnpjInput) {
+    clearError(cnpjInput);
+    const cnpj = cnpjInput.value.replace(/\D/g, '');
+
+    if (cnpj.length !== 14) {
+        showError(cnpjInput, "O CNPJ deve conter exatamente 14 números.");
+        return false;
+    }
+    return true;
+}
+
+// ===========================
+//  HANDLE REGISTER
+// ===========================
+function handleCompanyRegister(event) {
+    event.preventDefault();
+
+    const email = document.getElementById('company-email');
+    const cnpjValido = validarCNPJ(cnpjInput);
+
+    if (cnpjValido) {
+        // no futuro aqui vai enviar o e-mail de verificação
+        window.location.href = "{% url 'register_details_company' %}";
+    }
+}
+</script>
+{% endblock %}
+
+{% block footer %}{% endblock %}

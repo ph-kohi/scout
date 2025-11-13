@@ -12,3 +12,9 @@ def verify_email(request):
 
 def register_details(request):
     return render(request, 'register_details_candidate.html', {'hide_nav_links': True})
+
+def register_company(request):
+    return render(request, 'register_company.html', {'hide_nav_links': True})
+
+def register_details_company(request):
+    return render(request, 'register_details_company.html', {'hide_nav_links': True})
