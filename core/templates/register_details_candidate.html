@@ -56,8 +56,10 @@
 // ===========================
 //  CONSULTA DE CEP
 // ===========================
-document.getElementById('cep').addEventListener('blur', function() {
-    const cep = this.value.replace(/\D/g, '');
+document.getElementById('cep').addEventListener('blur', function () {
+    const inputCep = this;
+    const cep = inputCep.value.replace(/\D/g, '');
+
     if (cep.length === 8) {
         fetch(`https://viacep.com.br/ws/${cep}/json/`)
             .then(response => response.json())
@@ -67,12 +69,12 @@ document.getElementById('cep').addEventListener('blur', function() {
                     document.getElementById('bairro').value = data.bairro || '';
                     document.getElementById('endereco').value = data.logradouro || '';
                 } else {
-                    showError(this, "CEP não encontrado.");
+                    showError(inputCep, "CEP não encontrado.");
                 }
             })
-            .catch(() => showError(this, "Erro ao buscar o CEP."));
+            .catch(() => showError(inputCep, "Erro ao buscar o CEP."));
     } else if (cep.length > 0 && cep.length < 8) {
-        showError(this, "Formato inválido: digite 8 números.");
+        showError(inputCep, "Formato inválido: digite 8 números.");
     }
 });
 
