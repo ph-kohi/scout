@@ -1,5 +1,46 @@
 /* ======================================================================
-   FUNÇÕES UTILITÁRIAS REUTILIZÁVEIS
+   ÍCONES PERSONALIZADOS 
+====================================================================== */
+const SVG_OLHO_FECHADO = `
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+  <path d="M4 12C4 12 7 8 12 8C17 8 20 12 20 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <line x1="6" y1="11" x2="6.5" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <line x1="9.5" y1="9.5" x2="9.5" y2="6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <line x1="12" y1="9" x2="12" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <line x1="14.5" y1="9.5" x2="14.5" y2="6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <line x1="18" y1="11" x2="17.5" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+</svg>
+`;
+
+const SVG_OLHO_ABERTO = `
+<svg width="22" height="22" viewBox="0 0 48 48" fill="none">
+  <path d="M12 24C12 24 16.5 14 24 14C31.5 14 36 24 36 24" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="24" cy="24" r="4.5" stroke="currentColor" stroke-width="3" fill="none"/>
+  <circle cx="24" cy="24" r="2" fill="currentColor"/>
+</svg>
+`;
+
+/* ======================================================================
+   TOGGLE DE SENHA (AGORA PADRÃO OFICIAL)
+====================================================================== */
+function setupPasswordToggle(inputId, iconWrapperId) {
+    const input = document.getElementById(inputId);
+    const wrapper = document.getElementById(iconWrapperId);
+
+    if (!input || !wrapper) return;
+
+    // Ícone inicial
+    wrapper.innerHTML = SVG_OLHO_FECHADO;
+
+    wrapper.addEventListener("click", () => {
+        const isVisible = input.type === "text";
+        input.type = isVisible ? "password" : "text";
+        wrapper.innerHTML = isVisible ? SVG_OLHO_FECHADO : SVG_OLHO_ABERTO;
+    });
+}
+
+/* ======================================================================
+   UTILITÁRIOS (NÃO ALTERADOS, TODOS NECESSÁRIOS)
 ====================================================================== */
 
 // Apenas números
@@ -87,7 +128,7 @@ function validatePassword(senhaInput, confirmarInput) {
     return true;
 }
 
-// Telefone com +55
+// Máscara telefone
 function initTelefoneMask(input) {
     if (!input) return;
 
@@ -120,7 +161,7 @@ function initTelefoneMask(input) {
     });
 }
 
-// Validação final do telefone
+// Validar telefone
 function validateTelefone(input) {
     clearError(input);
     const clean = input.value.replace(/\D/g, "");
@@ -135,7 +176,7 @@ function validateTelefone(input) {
     return true;
 }
 
-// Busca CEP via ViaCEP
+// Busca CEP
 function lookupCEP(input, cb) {
     input.addEventListener("blur", () => {
         const cep = input.value.replace(/\D/g, "");
@@ -156,101 +197,16 @@ function lookupCEP(input, cb) {
 }
 
 /* ======================================================================
-   INICIALIZADORES — (RODAM SOMENTE QUANDO NECESSÁRIO)
+   INICIALIZAÇÃO DA PÁGINA DE CADASTRO DA EMPRESA
 ====================================================================== */
-
-// Logout
-function initLogout() {
-    const btn = document.getElementById("confirmLogout");
-    if (!btn) return;
-
-    btn.addEventListener("click", () => {
-        window.location.href = "/";
-    });
-}
-
-// Register Candidate
-function initRegisterCandidate() {
-    const form = document.getElementById("candidate-email-form");
-    if (!form) return;
-
-    const emailInput = document.getElementById("emailInput");
-
-    form.addEventListener("submit", e => {
-        e.preventDefault();
-
-        const email = emailInput.value.trim();
-        const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        if (!pattern.test(email)) {
-            alert("Digite um e-mail válido.");
-            return;
-        }
-
-        window.location.href = `/verify/candidate/?email=${encodeURIComponent(email)}`;
-    });
-}
-
-// Register Company (email + CNPJ)
-function initRegisterCompany() {
-    const form = document.getElementById("company-register-form");
-    if (!form) return;
-
-    const email = document.getElementById("company-email");
-    const cnpj = document.getElementById("company-cnpj");
-
-    onlyNumbers(cnpj, 14);
-
-    form.addEventListener("submit", e => {
-        e.preventDefault();
-
-        if (!validateCNPJ(cnpj)) return;
-
-        window.location.href = `/register/company/details/?email=${encodeURIComponent(email.value.trim())}`;
-    });
-}
-
-// Candidate Details
-function initDetailsCandidate() {
-    const form = document.getElementById("candidate-details-form");
-    if (!form) return;
-
-    const cpf = document.querySelector('input[placeholder="CPF"]');
-    const telefone = document.querySelector('input[placeholder="Telefone"]');
-    const senha = document.querySelector('input[placeholder="Senha"]');
-    const confirmar = document.querySelector('input[placeholder="Confirmar Senha"]');
-    const cep = document.getElementById("cep");
-
-    onlyNumbers(cpf, 11);
-    onlyNumbers(cep, 8);
-    initTelefoneMask(telefone);
-
-    lookupCEP(cep, data => {
-        document.getElementById("cidade").value = data.localidade;
-        document.getElementById("bairro").value = data.bairro;
-        document.getElementById("endereco").value = data.logradouro;
-    });
-
-    form.addEventListener("submit", e => {
-        e.preventDefault();
-
-        if (!validatePassword(senha, confirmar)) return;
-        if (!validateCPF(cpf)) return;
-        if (!validateTelefone(telefone)) return;
-
-        window.location.href = "/candidate/home/";
-    });
-}
-
-// Company Details
 function initDetailsCompany() {
     const form = document.getElementById("company-details-form");
     if (!form) return;
 
     const cpf = document.getElementById("cpf");
     const telefone = document.getElementById("telefone");
-    const senha = document.getElementById("senha");
-    const confirmar = document.getElementById("confirmar-senha");
+    const senha = document.getElementById("password");
+    const confirmar = document.getElementById("confirm-password");
     const cep = document.getElementById("cep");
 
     onlyNumbers(cpf, 11);
@@ -263,9 +219,13 @@ function initDetailsCompany() {
         document.getElementById("endereco").value = data.logradouro;
     });
 
+    //Toggle de senha para os dois campos
+    setupPasswordToggle("password", "togglePassword");
+    setupPasswordToggle("confirm-password", "toggleConfirmPassword");
+
     form.addEventListener("submit", e => {
         e.preventDefault();
-        
+
         if (!validateCPF(cpf)) return;
         if (!validateTelefone(telefone)) return;
         if (!validatePassword(senha, confirmar)) return;
@@ -275,67 +235,9 @@ function initDetailsCompany() {
     });
 }
 
-// Verify Candidate (4 digits)
-function initVerifyCandidate() {
-    const form = document.getElementById("verify-candidate-form");
-    if (!form) return;
-
-    const boxes = document.querySelectorAll(".code-box");
-
-    boxes.forEach((box, i) => {
-        box.addEventListener("input", () => {
-            if (box.value && i < boxes.length - 1) {
-                boxes[i + 1].focus();
-            }
-        });
-    });
-
-    form.addEventListener("submit", e => {
-        e.preventDefault();
-
-        const code = [...boxes].map(i => i.value).join("");
-
-        if (code === "1111") {
-            window.location.href = "/register/candidate/details/";
-            return;
-        }
-
-        alert("Código incorreto.");
-        boxes.forEach(b => (b.value = ""));
-        boxes[0].focus();
-        return;
-    });
-}
-
-// Verify Company
-function initVerifyCompany() {
-    const resend = document.getElementById("company-resend-btn");
-    const verify = document.getElementById("verify-company-btn");
-
-    if (resend) {
-        resend.addEventListener("click", () => {
-            alert(`Novo e-mail enviado (mock).`);
-        });
-    }
-
-    if (verify) {
-        verify.addEventListener("click", () => {
-            window.location.href = "/company/home/";
-        });
-    }
-}
-
-
 /* ======================================================================
-   INICIALIZA TODOS (mas só ativa o que existe na página)
+   INICIALIZAÇÃO GLOBAL
 ====================================================================== */
-
 document.addEventListener("DOMContentLoaded", () => {
-    initLogout();
-    initRegisterCandidate();
-    initRegisterCompany();
-    initDetailsCandidate();
     initDetailsCompany();
-    initVerifyCandidate();
-    initVerifyCompany();
 });
