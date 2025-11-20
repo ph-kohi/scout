@@ -12,29 +12,14 @@
         Acesse sua caixa de entrada e clique no link enviado para continuar o cadastro.
     </p>
 
-    <button class="btn btn-gray mt-4 w-100" id="resend-btn">Reenviar e-mail</button>
+    <button class="btn btn-gray mt-4 w-100" id="resend-btn" data-email="{{ email }}">
+        Reenviar e-mail
+    </button>
 
     <button class="btn btn-black w-100 mt-4" id="verified-btn">
         Já verifiquei meu e-mail
     </button>
 </div>
-
-<script>
-/* ==============================
-   BOTÃO: REENVIAR EMAIL
-============================== */
-document.getElementById("resend-btn").addEventListener("click", () => {
-    alert("Novo e-mail enviado para {{ email }} (mock).");
-});
-
-/* ==============================
-   BOTÃO: JÁ VERIFIQUEI
-   (por enquanto vai pra #)
-============================== */
-document.getElementById("verified-btn").addEventListener("click", () => {
-    window.location.href = "{% url 'home_company' %}";
-});
-</script>
 {% endblock %}
 
 {% block footer %}{% endblock %}

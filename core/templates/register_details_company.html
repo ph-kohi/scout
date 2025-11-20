@@ -6,269 +6,56 @@
     <div class="register-inner register-large">
         <h4>Complete o cadastro da sua empresa para prosseguir</h4>
 
-        <form class="register-form" onsubmit="return handleCompanyDetails(event)">
+        <form class="register-form" id="company-details-form" data-email="{{ email }}">
             <div class="row g-3">
+
                 <div class="col-md-6">
                     <input type="text" id="company-name" class="form-control email-input" placeholder="Nome da Empresa" required>
                 </div>
+
                 <div class="col-md-6">
-                    <input type="text" id="cpf" class="form-control email-input" placeholder="CPF do Responsável" required>
+                    <input type="text" id="cpf" class="form-control email-input" placeholder="CPF" required>
                 </div>
 
                 <div class="col-md-12">
                     <input type="text" id="responsavel" class="form-control email-input" placeholder="Nome do Responsável" required>
                 </div>
 
-                <div class="col-md-6">
-                    <input type="text" id="cnpj" class="form-control email-input" placeholder="CNPJ" required>
-                </div>
-                <div class="col-md-6">
-                    <input type="tel" id="telefone" class="form-control email-input" placeholder="Telefone" required>
-                </div>
-
                 <div class="col-md-4">
                     <input type="text" id="cep" class="form-control email-input" placeholder="CEP" required>
                 </div>
-                <div class="col-md-4">
-                    <input type="text" id="cidade" class="form-control email-input" placeholder="Cidade" required>
-                </div>
+
                 <div class="col-md-4">
                     <input type="text" id="bairro" class="form-control email-input" placeholder="Bairro" required>
                 </div>
 
-                <div class="col-md-8">
+                <div class="col-md-4">
+                    <input type="text" id="cidade" class="form-control email-input" placeholder="Cidade" required>
+                </div>
+
+                <div class="col-md-6">
                     <input type="text" id="endereco" class="form-control email-input" placeholder="Endereço" required>
                 </div>
-                <div class="col-md-4">
-                    <input type="text" id="numero" class="form-control email-input" placeholder="Número" required>
+
+                <div class="col-md-6">
+                    <input type="tel" id="telefone" class="form-control email-input" placeholder="Telefone" required>
                 </div>
 
                 <div class="col-md-6">
                     <input type="password" id="senha" class="form-control email-input" placeholder="Senha" required>
                 </div>
+
                 <div class="col-md-6">
                     <input type="password" id="confirmar-senha" class="form-control email-input" placeholder="Confirmar Senha" required>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-black w-100 mt-4">Concluir cadastro</button>
+            <button type="submit" class="btn btn-black w-100 mt-4">
+                Concluir cadastro
+            </button>
         </form>
     </div>
 </div>
-
-<script>
-
-const email = "{{ email }}";
-
-/* ---------------------------
-   helpers: erros e onlyNumbers
-   --------------------------- */
-function showError(input, message) {
-    clearError(input);
-    const alert = document.createElement('small');
-    alert.className = 'input-error';
-    alert.style.color = '#f66';
-    alert.style.display = 'block';
-    alert.style.marginTop = '4px';
-    alert.textContent = message;
-    input.parentNode.appendChild(alert);
-}
-
-function clearError(input) {
-    const alert = input.parentNode.querySelector('.input-error');
-    if (alert) alert.remove();
-}
-
-function onlyNumbers(input, length = null) {
-    if (!input) return;
-    input.addEventListener('input', () => {
-        let value = input.value.replace(/\D/g, '');
-        if (length && value.length > length) value = value.slice(0, length);
-        input.value = value;
-    });
-}
-
-/* ---------------------------
-   CEP lookup (viacep)
-   --------------------------- */
-const cepInput = document.getElementById('cep');
-if (cepInput) {
-    cepInput.addEventListener('blur', function() {
-        const cep = this.value.replace(/\D/g, '');
-        clearError(this);
-        if (cep.length === 8) {
-            fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                .then(res => res.json())
-                .then(data => {
-                    if (!data.erro) {
-                        document.getElementById('cidade').value = data.localidade || '';
-                        document.getElementById('bairro').value = data.bairro || '';
-                        document.getElementById('endereco').value = data.logradouro || '';
-                    } else {
-                        showError(this, "CEP não encontrado.");
-                    }
-                })
-                .catch(() => showError(this, "Erro ao buscar o CEP."));
-        } else if (cep.length > 0 && cep.length < 8) {
-            showError(this, "Formato inválido: digite 8 números.");
-        }
-    });
-}
-
-/* ---------------------------
-   CNPJ / CPF: apenas números
-   --------------------------- */
-const cnpjInput = document.getElementById('cnpj');
-const cpfInput = document.getElementById('cpf');
-onlyNumbers(cnpjInput, 14);
-onlyNumbers(cpfInput, 11);
-
-/* ---------------------------
-   validação CNPJ / CPF simples
-   --------------------------- */
-function validarCNPJ(input) {
-    clearError(input);
-    const v = (input.value || '').replace(/\D/g, '');
-    if (v.length !== 14) {
-        showError(input, "O CNPJ deve conter exatamente 14 números.");
-        return false;
-    }
-    return true;
-}
-function validarCPF(input) {
-    clearError(input);
-    const v = (input.value || '').replace(/\D/g, '');
-    if (v.length !== 11) {
-        showError(input, "O CPF deve conter exatamente 11 números.");
-        return false;
-    }
-    return true;
-}
-
-/* ---------------------------
-   TELEFONE: +55 prefix e formatação
-   e validação rígida (DDD 2 + 9 dígitos)
-   --------------------------- */
-const telefoneInput = document.getElementById('telefone');
-
-function initTelefoneField() {
-    if (!telefoneInput) return;
-    // valor inicial com +55
-    if (!telefoneInput.value || !telefoneInput.value.startsWith('+55')) {
-        telefoneInput.value = '+55 ';
-    }
-
-    // impede apagar o prefixo com backspace/delete quando o cursor estiver no começo
-    telefoneInput.addEventListener('keydown', (e) => {
-        if (telefoneInput.selectionStart <= 3 && (e.key === 'Backspace' || e.key === 'Delete')) {
-            e.preventDefault();
-        }
-    });
-
-    // formata conforme digita (mantém +55)
-    telefoneInput.addEventListener('input', () => {
-        if (!telefoneInput.value.startsWith('+55')) {
-            telefoneInput.value = '+55 ';
-        }
-        let cleaned = telefoneInput.value.replace(/[^\d+]/g, '');
-        telefoneInput.value = cleaned.replace(
-            /(\+55)(\d{0,2})(\d{0,5})(\d{0,4}).*/,
-            (_, p1, ddd, parte1, parte2) => {
-                let formatted = p1;
-                if (ddd) formatted += ' (' + ddd;
-                if (ddd && ddd.length === 2) formatted += ')';
-                if (parte1) formatted += ' ' + parte1;
-                if (parte2) formatted += '-' + parte2;
-                return formatted;
-            }
-        );
-    });
-}
-
-function validarTelefone(input) {
-    clearError(input);
-    if (!input) return false;
-    const numeroLimpo = (input.value || '').replace(/\D/g, ''); // remove tudo que não for número
-    // formato armazenado: +55DD DDDDD-DDDD -> númeroLimpo: 55 + DDD + resto
-    if (numeroLimpo.length < 11) { // mínima plausível (55 + 2 + 8)
-        showError(input, "Telefone incompleto.");
-        return false;
-    }
-    // remove o "55" do começo
-    const semPrefix = numeroLimpo.replace(/^55/, '');
-    const ddd = semPrefix.slice(0,2);
-    const numero = semPrefix.slice(2);
-    if (ddd.length !== 2 || numero.length !== 9) {
-        showError(input, "O telefone deve conter DDD (2 dígitos) + 9 números.");
-        return false;
-    }
-    return true;
-}
-
-/* ---------------------------
-   SENHA: regras + confirmação
-   --------------------------- */
-function validarSenhas() {
-    const senha = document.getElementById('senha');
-    const confirmar = document.getElementById('confirmar-senha');
-    clearError(senha);
-    clearError(confirmar);
-
-    const regexMaiuscula = /[A-Z]/;
-    const regexEspecial = /[!@#$%^&*(),.?":{}|<>]/;
-
-    if (!senha || senha.value.length < 8) {
-        showError(senha, "A senha deve ter no mínimo 8 caracteres.");
-        return false;
-    }
-    if (!regexMaiuscula.test(senha.value)) {
-        showError(senha, "A senha deve conter pelo menos uma letra maiúscula.");
-        return false;
-    }
-    if (!regexEspecial.test(senha.value)) {
-        showError(senha, "A senha deve conter pelo menos um caractere especial.");
-        return false;
-    }
-    if (senha.value !== confirmar.value) {
-        showError(confirmar, "As senhas não coincidem.");
-        return false;
-    }
-    return true;
-}
-
-/* ---------------------------
-   envio final: checa tudo
-   --------------------------- */
-function handleCompanyDetails(event) {
-    event.preventDefault();
-
-    // pegue referências seguras
-    const cnpjOk = validarCNPJ(cnpjInput);
-    const cpfOk = validarCPF(cpfInput);
-    const senhasOk = validarSenhas();
-    const telefoneOk = validarTelefone(telefoneInput);
-
-    if (cnpjOk && cpfOk && senhasOk && telefoneOk) {
-        // tudo validado: mock comportamento (no futuro: salvar/redirect)
-        window.location.href = `/verify/company/?email=${encodeURIComponent(email)}`;
-    } else {
-        // foca no primeiro campo com erro (opcional)
-        const firstError = document.querySelector('.input-error');
-        if (firstError) {
-            const parent = firstError.parentNode;
-            const control = parent.querySelector('input, textarea, select');
-            if (control) control.focus();
-        }
-    }
-}
-
-/* ---------------------------
-   inicializações
-   --------------------------- */
-document.addEventListener('DOMContentLoaded', () => {
-    initTelefoneField();
-});
-</script>
 {% endblock %}
 
 {% block footer %}{% endblock %}

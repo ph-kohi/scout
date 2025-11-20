@@ -8,7 +8,7 @@
         <span class="email-text">{{ email }}</span>
     </h4>
 
-    <form class="code-form mt-4" id="verifyForm" onsubmit="return handleCodeSubmit(event)">
+    <form class="code-form mt-4" id="verify-candidate-form">
         <div class="code-inputs">
             <input type="text" maxlength="1" class="code-box" required>
             <input type="text" maxlength="1" class="code-box" required>
@@ -16,47 +16,16 @@
             <input type="text" maxlength="1" class="code-box" required>
         </div>
 
-        <button type="button" class="btn btn-gray mt-4 w-100">Reenviar e-mail</button>
+        <button type="button" id="resend-btn" class="btn btn-gray mt-4 w-100">
+            Reenviar e-mail
+        </button>
 
         <div class="d-flex justify-content-between mt-4 w-100" style="max-width: 320px;">
             <a href="{% url 'register_candidate' %}" class="btn btn-gray nav-btn">← Voltar</a>
-            <button type="submit" class="btn btn-gray nav-btn">Avançar →</button>
+            <button type="submit" id="verified-btn" class="btn btn-gray nav-btn">Avançar →</button>
         </div>
     </form>
 </div>
-
-<script>
-/* ===========================
-   Lógica do formulário
-=========================== */
-function handleCodeSubmit(event) {
-    event.preventDefault();
-
-    const inputs = document.querySelectorAll('.code-box');
-    const code = Array.from(inputs).map(i => i.value.trim()).join('');
-
-    if (code === '1111') {
-        window.location.href = "{% url 'register_details_candidate' %}";
-    } else {
-        alert('Código incorreto. Tente novamente.');
-
-        // limpa apenas os campos do código, mantendo o e-mail
-        inputs.forEach(i => i.value = '');
-        inputs[0].focus();
-    }
-}
-
-/* ===========================
-   Navegação automática entre campos
-=========================== */
-document.querySelectorAll('.code-box').forEach((box, i, arr) => {
-    box.addEventListener('input', () => {
-        if (box.value && i < arr.length - 1) arr[i + 1].focus();
-    });
-});
-
-document.querySelector('.code-form').addEventListener('submit', checkCode);
-</script>
 {% endblock %}
 
 {% block footer %}{% endblock %}

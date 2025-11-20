@@ -1,6 +1,6 @@
-/* ===========================
-   HOME COMPANY (PAINEL)
-=========================== */
+/* ==================
+   COMPANY DASHBOARD
+===================== */
 
 .company-dashboard {
     padding: 2rem;
@@ -16,22 +16,30 @@
 }
 
 .dashboard-subtitle {
-    color: #bbb;
+    color: #707070;
     margin-bottom: 2rem;
 }
 
-/* Grid de Painéis */
+/* =====
+   GRID
+======== */
+
 .dashboard-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
 }
 
+/* ======
+   CARDS 
+========= */
+
 .dashboard-card {
     background-color: #111;
     border: 1px solid #2a2a2a;
     padding: 1.5rem;
     border-radius: 12px;
+    color: #fff !important;
 }
 
 .panel-title {
@@ -40,46 +48,49 @@
     font-weight: 500;
 }
 
-/* --------------------------
-   VAGAS LISTADAS
---------------------------- */
+/* =============
+   JOB LISTINGS 
+================*/
 
-.vaga-item {
+.job-item {
     background: #1b1b1b;
     border-radius: 8px;
     padding: 1rem;
     margin-bottom: 0.8rem;
     border: 1px solid #2a2a2a;
+    color: #fff !important;
 }
 
-.vaga-item h4 {
+.job-item h4 {
     font-size: 1rem;
     margin-bottom: 0.3rem;
 }
 
-.vaga-status {
+/* Job Status */
+.job-status {
     padding: 0.2rem 0.6rem;
     border-radius: 6px;
     font-size: 0.8rem;
+    color: #fff !important;
 }
 
-.vaga-status.aberta {
+.job-status.open {
     background-color: #0f0f0f;
-    color: #5bff80;
     border: 1px solid #3b8f5a;
+    color: #5bff80 !important; 
 }
 
-.vaga-status.pausada {
+.job-status.paused {
     background-color: #1a1a1a;
-    color: #ffd36b;
     border: 1px solid #8f7a3b;
+    color: #ffd36b !important; 
 }
 
-/* --------------------------
-   TALENTOS
---------------------------- */
+/* ============
+   TALENT LIST 
+=============== */
 
-.talento-item {
+.talent-item {
     background: #1b1b1b;
     border: 1px solid #2a2a2a;
     border-radius: 8px;
@@ -88,14 +99,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: #fff !important;
 }
 
-.talento-skill {
-    color: #aaa;
-    font-size: 0.85rem;
+.talent-skill {
+    color: #ddd !important;
 }
 
-.pontuacao {
+/* Score Badge */
+.score-badge {
     background: #000;
     border-radius: 50%;
     width: 42px;
@@ -106,4 +118,5 @@
     font-weight: 600;
     border: 1px solid #444;
     font-size: 1rem;
+    color: #fff !important;
 }
