@@ -1,7 +1,20 @@
-__pycache__/
-*.pyc
-*.pyo
-
+# Ambiente virtual
 venv/
 .venv/
 env/
+
+# Bytecode / cache
+__pycache__/
+*.py[cod]
+*.pyc
+
+# Banco SQLite local
+*.sqlite3
+*.db
+
+# Configurações de IDE/editor
+.vscode/
+.idea/
+
+# Logs
+*.log
